@@ -1,0 +1,18 @@
+package aqoursoro.teleportcraft.init;
+
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+
+import aqoursoro.teleportcraft.util.Reference;
+import aqoursoro.teleportcraft.block.BlockHardOre;
+import aqoursoro.teleportcraft.block.BlockMythinium;
+import aqoursoro.teleportcraft.block.BlockSoftOre;
+
+@ObjectHolder(Reference.MOD_ID)
+public final class ModBlocks 
+{
+	public static final BlockMythinium MYTHINIUM_BLOCK = null;
+	
+	public static final BlockHardOre MYTHINIUM_ORE_BLOCK = null;
+	
+	public static final BlockSoftOre COPPER_ORE_BLOCK = null;
+}

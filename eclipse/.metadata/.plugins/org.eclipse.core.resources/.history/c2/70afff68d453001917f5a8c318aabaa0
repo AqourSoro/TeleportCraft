@@ -1,0 +1,5 @@
+//Blocks
+tile.mythinium_block.name=Block of Mythinium
+
+//Creative Tab(s)
+itemGroup.tpcraft=Example Mod

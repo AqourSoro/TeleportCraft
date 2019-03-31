@@ -1,0 +1,13 @@
+package aqoursoro.teleportcraft.init;
+
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+
+import aqoursoro.teleportcraft.util.Reference;
+
+import aqoursoro.teleportcraft.block.BlockMythinium;
+
+@ObjectHolder(Reference.MOD_ID)
+public final class ModBlocks 
+{
+	public static final BlockMythinium MYTHINIUM_BLOCK = null;
+}

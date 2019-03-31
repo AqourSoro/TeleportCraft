@@ -1,0 +1,7 @@
+//Blocks
+tile.mythinium_block.name=Block of Mythinium
+tile.mythinium_ore.name=Mythinium Ore
+tile.copper_ore.name=Copper Ore
+
+//Creative Tab(s)
+itemGroup.tpcraft=Teleport Craft

@@ -1,0 +1,5 @@
+package aqoursoro.teleportcraft.client;
+
+public class ClientEventSubscriber {
+
+}

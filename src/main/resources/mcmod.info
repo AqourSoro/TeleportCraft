@@ -1,0 +1,16 @@
+[
+{
+  "modid": "tpcraft",
+  "name": "Teleport Craft",
+  "description": "A Minecraft mod produced for group project",
+  "version": "${1.0}",
+  "mcversion": "${1.12.2}",
+  "url": "https://github.com/AqourSoro/TeleopartCraft",
+  "updateUrl": "",
+  "authorList": ["Jiayou Huang", "Qingyang Yu", "Cankun Xu"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

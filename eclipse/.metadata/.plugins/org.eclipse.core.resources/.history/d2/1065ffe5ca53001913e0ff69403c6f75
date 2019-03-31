@@ -1,0 +1,26 @@
+package aqoursoro.teleportcraft.block;
+
+import javax.annotation.Nonnull;
+
+import aqoursoro.teleportcraft.util.ModUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+
+public class BlockMythinium extends Block
+{
+
+	public BlockMythinium(@Nonnull final String name) 
+	{
+		super(Material.IRON);
+		ModUtil.setRegistryNames(this, name);
+		//this.setCreativeTab(CreativeTabs.MATERIALS);
+		this.setSoundType(SoundType.METAL);
+		this.setHardness(5.0f);
+		this.setResistance(30.0f);
+		this.setHarvestLevel("pickaxe", 2);
+		this.setLightLevel(1.0f);
+	}
+
+}
