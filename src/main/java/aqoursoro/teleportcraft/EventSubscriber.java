@@ -33,7 +33,7 @@ public class EventSubscriber
 	{
 		final IForgeRegistry<Block> registry = event.getRegistry();
 		
-		//Registry blocks here;
+		//Registry blocks here, Also adding blocks in the array beneath.
 		registry.register(new BlockMythinium("mythinium_block"));
 		registry.register(new BlockHardOre("mythinium_ore"));
 		registry.register(new BlockSoftOre("copper_ore"));
