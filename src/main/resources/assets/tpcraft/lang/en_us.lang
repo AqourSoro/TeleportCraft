@@ -1,7 +1,29 @@
 //Blocks
 tile.mythinium_block.name=Block of Mythinium
 tile.mythinium_ore.name=Mythinium Ore
+tile.lead_ore.name=Lead Ore
 tile.copper_ore.name=Copper Ore
+tile.tin_ore.name=Tin Ore
+
+//Tile Entities
+tile.electric_grinder.name=Electric Grinder
+
+//Containers
+container.electric_grinder=Electric Grinder
+
+//Items
+item.mythinium_ingot.name=Mythinium Ingot
+item.mythinium_ore_powder.name=Mythinium Ore Powder
+item.mythinium_powder.name=Mythinium Powder
+item.copper_ingot.name=Copper Ingot
+item.copper_ore_powder.name=Copper Ore Powder
+item.copper_powder.name=Copper Powder
+item.lead_ingot.name=Lead Ingot
+item.lead_ore_powder.name=Lead Ore Powder
+item.lead_powder.name=Lead Powder
+item.tin_ingot.name=Tin Ingot
+item.tin_ore_powder.name=Tin Ore Powder
+item.tin_powder.name=Tin Powder
 
 //Creative Tab(s)
 itemGroup.tpcraft=Teleport Craft

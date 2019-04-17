@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import aqoursoro.teleportcraft.network.ModNetworkManager;
+import aqoursoro.teleportcraft.recipes.smelting.SmeltingRecipes;
 import aqoursoro.teleportcraft.util.IProxy;
 import aqoursoro.teleportcraft.util.ModGuiHandler;
 import aqoursoro.teleportcraft.util.Reference;
@@ -61,6 +62,7 @@ public class TeleportCraft
 	public void onPostInit(final FMLPostInitializationEvent event) 
 	{
 		LOGGER.debug("postInit");
+		SmeltingRecipes.initSmelting();
 	}
 	
 	//validation of author

@@ -40,9 +40,32 @@ public class ClientEventSubscriber
 		registerEntityRenderers();
 		LOGGER.debug("Registered entity renderers");
 		
+//		ForgeRegistries.BLOCKS.getValuesCollection().stream()
+//		.filter(block -> block.getRegistryName().getNamespace().equals(MOD_ID))
+//		.forEach(ClientEventSubscriber::registerItemBlockModel);
+		
 		registerItemBlockModel(ModBlocks.MYTHINIUM_BLOCK);
 		registerItemBlockModel(ModBlocks.MYTHINIUM_ORE);
+		registerItemBlockModel(ModBlocks.LEAD_ORE);
 		registerItemBlockModel(ModBlocks.COPPER_ORE);
+		registerItemBlockModel(ModBlocks.TIN_ORE);
+		registerItemBlockModel(ModBlocks.ELECTRIC_GRINDER);
+		
+		registerItemModel(ModItems.MYTHINIUM_INGOT);
+		registerItemModel(ModItems.MYTHINIUM_ORE_POWDER);
+		registerItemModel(ModItems.MYTHINIUM_POWDER);
+		
+		registerItemModel(ModItems.COPPER_INGOT);
+		registerItemModel(ModItems.COPPER_ORE_POWDER);
+		registerItemModel(ModItems.COPPER_POWDER);
+		
+		registerItemModel(ModItems.LEAD_INGOT);
+		registerItemModel(ModItems.LEAD_ORE_POWDER);
+		registerItemModel(ModItems.LEAD_POWDER);
+		
+		registerItemModel(ModItems.TIN_INGOT);
+		registerItemModel(ModItems.TIN_ORE_POWDER);
+		registerItemModel(ModItems.TIN_POWDER);
 		
 	}
 	

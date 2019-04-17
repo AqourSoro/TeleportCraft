@@ -5,6 +5,7 @@ import aqoursoro.teleportcraft.creativetabs.ModCreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -81,6 +82,7 @@ public class ModUtil
 		return new CreativeTabs[]{item.getCreativeTab(), CreativeTabs.SEARCH};
 	}
 	
+	//Used for generators to calculate.
 	public static double randomBetween(final int min, final int max) 
 	{
 		return RANDOM.nextInt((max - min) + 1) + min;

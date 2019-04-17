@@ -26,13 +26,13 @@ public class CapabilityElectricEnergy
 		{
 
 			@Override
-			public NBTBase writeNBT(Capability<IEnergy> capability, IEnergy instance, EnumFacing side) 
+			public NBTBase writeNBT(@Nonnull Capability<IEnergy> capability, @Nonnull IEnergy instance, @Nonnull EnumFacing side) 
 			{
 				return new NBTTagInt(instance.getEnergyStored());
 			}
 
 			@Override
-			public void readNBT(Capability<IEnergy> capability, IEnergy instance, EnumFacing side, NBTBase nbt) 
+			public void readNBT(@Nonnull Capability<IEnergy> capability, @Nonnull IEnergy instance, @Nonnull EnumFacing side, @Nonnull NBTBase nbt) 
 			{
 				if(!(instance instanceof ElectricEnergyStorage)) 
 				{

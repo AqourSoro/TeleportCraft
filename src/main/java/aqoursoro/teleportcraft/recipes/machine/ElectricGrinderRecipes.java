@@ -5,8 +5,10 @@ import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
 
+import aqoursoro.teleportcraft.init.ModBlocks;
 import aqoursoro.teleportcraft.init.ModItems;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,19 +25,32 @@ public class ElectricGrinderRecipes
         return INSTANCE;
     }
 	
-	public ElectricGrinderRecipes()
+	private ElectricGrinderRecipes()
 	{
-		this.addGrinding(Items.IRON_INGOT, new ItemStack(ModItems.IRON_POWDER));
+		this.addGrindingRecipe(Blocks.IRON_ORE, new ItemStack(ModItems.IRON_ORE_POWDER, 2));
+		this.addGrindingRecipe(Items.IRON_INGOT, new ItemStack(ModItems.IRON_POWDER, 1));
+		
+		this.addGrindingRecipe(ModBlocks.COPPER_ORE, new ItemStack(ModItems.COPPER_ORE_POWDER, 2));
+		this.addGrindingRecipe(ModItems.COPPER_INGOT, new ItemStack(ModItems.COPPER_POWDER, 1));
+		
+		this.addGrindingRecipe(ModBlocks.LEAD_ORE, new ItemStack(ModItems.LEAD_ORE_POWDER, 2));
+		this.addGrindingRecipe(ModItems.LEAD_INGOT, new ItemStack(ModItems.LEAD_POWDER, 1));
+		
+		this.addGrindingRecipe(ModBlocks.TIN_ORE, new ItemStack(ModItems.TIN_ORE_POWDER, 2));
+		this.addGrindingRecipe(ModItems.TIN_INGOT, new ItemStack(ModItems.TIN_POWDER, 1));
+		
+		this.addGrindingRecipe(ModBlocks.MYTHINIUM_ORE, new ItemStack(ModItems.MYTHINIUM_ORE_POWDER, 2));
+		this.addGrindingRecipe(ModItems.MYTHINIUM_INGOT, new ItemStack(ModItems.MYTHINIUM_POWDER, 1));
 	}
 	
-	public void addGrinding(Item input, ItemStack stack)
+	public void addGrindingRecipe(Item input, ItemStack stack)
 	{
 		addGrindingRecipe(new ItemStack(input, 1, 32767), stack);
 	}
 	
-	public void addGrindingRecipeForBlock(Block input, ItemStack stack)
+	public void addGrindingRecipe(Block input, ItemStack stack)
 	{
-		addGrinding(Item.getItemFromBlock(input), stack);
+		addGrindingRecipe(Item.getItemFromBlock(input), stack);
 	}
 	
 	public void addGrindingRecipe(ItemStack input, ItemStack stack)

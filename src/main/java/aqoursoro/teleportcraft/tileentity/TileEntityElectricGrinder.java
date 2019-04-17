@@ -15,6 +15,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 
@@ -22,73 +23,84 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 {
 	public static final int SLOT_NUM = 3;
 	
+	private static final int INPUT_RATE = 100;
+	private static final int OUTPUT_RATE = 5;
+	private static final int CAPACITY = 1000;
+	
 	public ItemStackHandler handler = new ItemStackHandler(SLOT_NUM);
 	
-	private ElectricEnergyStorage storage = new ElectricEnergyStorage(75000, 20, 0);
+	private ElectricEnergyStorage storage = new ElectricEnergyStorage(CAPACITY, INPUT_RATE, OUTPUT_RATE);
 	
 	private String customName;
 	
-	public int grindingTime, energy = storage.getEnergyStored();
+	private int totalTime = 50, grindingTime = 0, energy = storage.getEnergyStored();
 	
-	private ItemStack grinding = ItemStack.EMPTY;
+	private boolean isWorking = false;
 	
 	@Override
 	public void update() 
 	{
 		
-		if(world.isBlockPowered(pos)) 
+		
+		if(world.isBlockPowered(pos) && storage.canRecive()) 
 		{
-			energy += 100;
+			storage.insertEnergy(INPUT_RATE, false);
+			energy += INPUT_RATE;
 		}
 		
-		ItemStack input = handler.getStackInSlot(0);
 		
-		ItemStack battery = handler.getStackInSlot(2);
-		
-		if(battery != ItemStack.EMPTY)
+		if(!this.world.isRemote)
 		{
-			this.getItemEnergy(battery);
-		}
-		
-		if(energy > 20)
-		{
-			if(grindingTime > 0) 
+			ItemStack inStack = handler.extractItem(0, 1, true);
+			
+			ItemStack battery = handler.getStackInSlot(2);
+			
+			if(battery != ItemStack.EMPTY)
 			{
-				energy -= 20;
-				grindingTime++;
-				BlockElectricGrinder.setState(true, world, pos);
-				if(grindingTime == 100)
+				this.getItemEnergy(battery);
+			}
+			
+			if(inStack != ItemStack.EMPTY)
+			{
+				ItemStack result = ElectricGrinderRecipes.instance().getGrindingResult(inStack);
+				int outputNum = result.getCount();
+				if(result != ItemStack.EMPTY && handler.insertItem(1, result, true) == ItemStack.EMPTY)
 				{
-					if(handler.getStackInSlot(1).getCount() > 0)
+					int EEPerTick = getRequiredEnergyPerTick();
+					if(energy >= EEPerTick && storage.canExtract())
 					{
-						handler.getStackInSlot(1).grow(1);
+						storage.extractEnergy(EEPerTick, false);
+						energy -= EEPerTick;
+						if(++ grindingTime >= totalTime)
+						{
+							grindingTime = 0;
+							inStack = handler.extractItem(0, 1, false);
+							result = ElectricGrinderRecipes.instance().getGrindingResult(inStack).copy();
+							handler.insertItem(1, result, false);
+							markDirty();
+						}
+						
 					}
-					else
-					{
-						handler.insertItem(1, grinding, false);
-					}
-					grinding = ItemStack.EMPTY;
-					grindingTime = 0;
-					return;
 				}
-				
+					
 			}
 			else
 			{
-				if(!input.isEmpty())
-				{
-					ItemStack output = ElectricGrinderRecipes.instance().getGrindingResult(input);
-					if(!output.isEmpty())
-					{
-						grinding = output;
-						grindingTime ++;
-						input.shrink(1);
-						handler.setStackInSlot(0, input);
-						energy -= 20;
-					}
-				}
+				grindingTime = 0;
 			}
 		}
+		
+		if(grindingTime > 0 && isWorking == false)
+		{
+			BlockElectricGrinder.setState(true, world, pos);
+			isWorking = true;
+		}
+		if(grindingTime == 0 && isWorking == true) 
+		{
+			BlockElectricGrinder.setState(false, world, pos);
+			isWorking = false;
+		}
+		 
 		
 	}
 
@@ -96,6 +108,10 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) 
 	{
 		if(capability == CapabilityElectricEnergy.ELECTRIC_ENERGY) 
+		{
+			return true;
+		}
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) 
 		{
 			return true;
 		}
@@ -108,6 +124,10 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 		if(capability == CapabilityElectricEnergy.ELECTRIC_ENERGY) 
 		{
 			return (T) this.storage;
+		}
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+		{
+			return (T) this.handler;
 		}
 		return super.getCapability(capability, facing);
 	}
@@ -149,6 +169,11 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 		return energy;
 	}
 	
+	public int getMaxEnergyStored()
+	{
+		return this.storage.getMaxEnergyStored();
+	}
+	
 	public static int getItemEnergy(ItemStack battery)
 	{
 		//get battery energy here!
@@ -162,6 +187,16 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 		return this.world.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, 
 											         		                             (double)this.pos.getY() + 0.5D, 
 											         		                             (double)this.pos.getZ() + 0.5D) <= 64.0D;
+	}
+	
+	private int getRequiredEnergyPerTick()
+	{
+		return OUTPUT_RATE;
+	}
+	
+	public int getTotalTime()
+	{
+		return totalTime;
 	}
 	
 	public int getField(int id) 

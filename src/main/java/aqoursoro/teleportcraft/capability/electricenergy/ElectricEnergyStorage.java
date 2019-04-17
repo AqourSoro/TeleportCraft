@@ -64,13 +64,13 @@ public class ElectricEnergyStorage implements IEnergy
 	@Override
 	public boolean canExtract() 
 	{
-		return this.MaxExtract > 0;
+		return this.MaxExtract > 0 && Energy > 0;
 	}
 
 	@Override
 	public boolean canRecive() 
 	{
-		return this.MaxInsert > 0;
+		return this.MaxInsert > 0 && Energy < Capacity;
 	}
 
 	public void readFromNBT(NBTTagCompound nbt)

@@ -1,5 +1,9 @@
 package aqoursoro.teleportcraft.inventory.container;
 
+import javax.annotation.Nonnull;
+
+import aqoursoro.teleportcraft.init.ModItems;
+import aqoursoro.teleportcraft.recipes.machine.ElectricGrinderRecipes;
 import aqoursoro.teleportcraft.tileentity.TileEntityElectricGrinder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -16,19 +20,46 @@ import net.minecraftforge.items.SlotItemHandler;
 public class ContainerElectricGrinder extends Container
 {
 	
-	private final TileEntityElectricGrinder tileEntity;
+	private TileEntityElectricGrinder tileentity;
+	
 	
 	private int grindingTime, energy;
 	
-	public ContainerElectricGrinder(InventoryPlayer player, TileEntityElectricGrinder tileentity) 
+	//protected SlotItemHandler input, output, battery;
+	
+	public ContainerElectricGrinder(@Nonnull InventoryPlayer player, @Nonnull TileEntityElectricGrinder tileentity) 
 	{
-		tileEntity = tileentity;
+		this.tileentity = tileentity;
 		
 		IItemHandler handler = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		//the first param is the 
+		
 		this.addSlotToContainer(new SlotItemHandler(handler, 0, 56, 17));
-		this.addSlotToContainer(new SlotItemHandler(handler, 1, 112, 30));
-		this.addSlotToContainer(new SlotItemHandler(handler, 2, 56, 53));
+		
+		//output slot
+		this.addSlotToContainer(new SlotItemHandler(handler, 1, 116, 35) 
+		{
+			@Override
+            public boolean isItemValid(ItemStack stack)
+            {
+				return false;
+            }
+		});
+		
+		//battery slot
+		this.addSlotToContainer(new SlotItemHandler(handler, 2, 56, 53) 
+		{
+			@Override
+            public boolean isItemValid(ItemStack stack)
+            {
+				return stack != ItemStack.EMPTY && stack.getItem() == ModItems.BATTERY && super.isItemValid(stack);
+            }
+			
+			@Override
+            public int getItemStackLimit(ItemStack stack)
+            {
+                return 1;
+            }
+		});
 		
 		//player's inventory
 		for(int y = 0; y < 3; y++)
@@ -46,17 +77,17 @@ public class ContainerElectricGrinder extends Container
 	}
 
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) 
+	public boolean canInteractWith(@Nonnull EntityPlayer playerIn) 
 	{
 		
-		return tileEntity.isUsableByPlayer(playerIn);
+		return tileentity.isUsableByPlayer(playerIn);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateProgressBar(int id, int data) 
+	public void updateProgressBar(@Nonnull final int id, @Nonnull final int data) 
 	{
-		this.tileEntity.setField(id, data);
+		this.tileentity.setField(id, data);
 	}
 	
 	@Override
@@ -68,25 +99,84 @@ public class ContainerElectricGrinder extends Container
 		{
 			IContainerListener listener = (IContainerListener)this.listeners.get(i);
 			
-			if(grindingTime != tileEntity.getField(0))
+			if(grindingTime != tileentity.getField(0))
 			{
-				listener.sendWindowProperty(this, 0, tileEntity.getField(0));
+				listener.sendWindowProperty(this, 0, tileentity.getField(0));
 			}
 			
-			if(energy != tileEntity.getField(1))
+			if(energy != tileentity.getField(1))
 			{
-				listener.sendWindowProperty(this, 0, tileEntity.getField(1));
+				listener.sendWindowProperty(this, 1, tileentity.getField(1));
 			}
 		}
 		
-		grindingTime = tileEntity.getField(0);
-		energy = tileEntity.getField(1);
+		grindingTime = tileentity.getField(0);
+		energy = tileentity.getField(1);
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) 
+	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, @Nonnull final int index) 
 	{
-		return ItemStack.EMPTY;
+		ItemStack stack = ItemStack.EMPTY;
+		
+		Slot slot = (Slot)this.inventorySlots.get(index);
+		
+		if (slot != null && slot.getHasStack())
+        {
+			ItemStack newStack = slot.getStack(); 
+	        stack = newStack.copy();
+	        
+	        if(index == 1)
+	        {
+	        	if(!this.mergeItemStack(newStack, 3, 39, true)) 
+	        	{
+	        		return ItemStack.EMPTY;
+	        	}
+	        	slot.onSlotChange(newStack, stack);
+	        }
+	        else if(index != 2 && index != 1 && index != 0) 
+	        {
+	        	if(!ElectricGrinderRecipes.instance().getGrindingResult(newStack).isEmpty())
+	        	{
+	        		if(!this.mergeItemStack(newStack, 0, 2, false)) 
+					{
+						return ItemStack.EMPTY;
+					}
+	        		else if(index >= 3 && index < 30)
+					{
+						if(!this.mergeItemStack(newStack, 30, 39, false)) 
+						{
+							return ItemStack.EMPTY;
+						}
+					}else if(index >= 30 && index < 39 && !this.mergeItemStack(newStack, 3, 30, false))
+					{
+						return ItemStack.EMPTY;
+					}
+	        	}
+	        }
+	        else if(!this.mergeItemStack(newStack, 3, 39, false)) 
+			{
+				return ItemStack.EMPTY;
+			}
+	        if(newStack.isEmpty())
+			{
+				slot.putStack(ItemStack.EMPTY);
+			}
+			else
+			{
+				slot.onSlotChanged();
+			}
+	        
+	        if(newStack.getCount() == stack.getCount())
+	        {
+	        	return ItemStack.EMPTY;
+	        }
+            
+	        
+	        slot.onTake(playerIn, newStack);
+        }
+
+		return stack;
 	}
 
 }

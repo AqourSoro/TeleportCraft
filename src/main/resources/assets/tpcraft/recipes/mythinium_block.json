@@ -1,0 +1,17 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "tpcraft:mythinium_ingot"
+        }
+    },
+    "result": {
+            "item": "tpcraft:mythinium_block"
+        }
+}
