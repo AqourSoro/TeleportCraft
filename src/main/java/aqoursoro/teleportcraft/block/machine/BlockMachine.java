@@ -31,8 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class BlockMachine extends Block
 {
 	
-	private static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-	private static final PropertyBool WORKING = PropertyBool.create("working");
+	protected static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	protected static final PropertyBool WORKING = PropertyBool.create("working");
 	
 	private int GUI_ID;
 	
@@ -136,7 +136,6 @@ public class BlockMachine extends Block
         return getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
     }
     
-    
     @Override
     public IBlockState getStateFromMeta(int meta)
     {
@@ -162,26 +161,6 @@ public class BlockMachine extends Block
         return new BlockStateContainer(this, new IProperty[] {WORKING, FACING});
     }
     
-    public static void setState(boolean active, @Nonnull World worldIn, @Nonnull BlockPos pos) 
-	{
-		IBlockState state = worldIn.getBlockState(pos);
-		TileEntity tileentity = worldIn.getTileEntity(pos);
-		
-		if(active) 
-		{
-			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_GRINDER.getDefaultState().withProperty(WORKING, true).withProperty(FACING, state.getValue(FACING)), 3);
-		}
-		else 
-		{
-			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_GRINDER.getDefaultState().withProperty(WORKING, false).withProperty(FACING, state.getValue(FACING)), 3);
-		}
-		
-		if(tileentity != null) 
-		{
-			tileentity.validate();
-			worldIn.setTileEntity(pos, tileentity);
-		}
-	}
     
     @Override
 	public IBlockState withMirror(@Nonnull IBlockState state, @Nonnull Mirror mirrorIn) 

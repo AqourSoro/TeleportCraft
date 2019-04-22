@@ -1,9 +1,8 @@
 package aqoursoro.teleportcraft.capability.electricenergy;
 
-import aqoursoro.teleportcraft.capability.IEnergy;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class ElectricEnergyStorage implements IEnergy
+public class ElectricEnergyStorage implements IElectricEnergy
 {
 	protected int Energy, Capacity, MaxInsert, MaxExtract;
 	

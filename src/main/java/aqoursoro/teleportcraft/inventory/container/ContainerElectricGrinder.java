@@ -56,7 +56,7 @@ public class ContainerElectricGrinder extends Container
 			
 			@Override
             public int getItemStackLimit(ItemStack stack)
-            {
+            {	
                 return 1;
             }
 		});

@@ -22,11 +22,13 @@ import com.google.common.base.Preconditions;
 import aqoursoro.teleportcraft.block.BlockHardOre;
 import aqoursoro.teleportcraft.block.BlockMythinium;
 import aqoursoro.teleportcraft.block.BlockSoftOre;
+import aqoursoro.teleportcraft.block.cable.BlockElectricCable;
 import aqoursoro.teleportcraft.block.machine.BlockElectricGrinder;
 import aqoursoro.teleportcraft.creativetabs.ModCreativeTabs;
 import aqoursoro.teleportcraft.init.ModBlocks;
 import aqoursoro.teleportcraft.init.ModCapabilities;
 import aqoursoro.teleportcraft.item.ItemGeneral;
+import aqoursoro.teleportcraft.tileentity.TileEntityElectricCable;
 import aqoursoro.teleportcraft.tileentity.TileEntityElectricGrinder;
 import aqoursoro.teleportcraft.util.ModUtil;
 import aqoursoro.teleportcraft.util.Reference;
@@ -49,6 +51,7 @@ public class EventSubscriber
 		registry.register(new BlockSoftOre("copper_ore"));
 		registry.register(new BlockSoftOre("tin_ore"));
 		registry.register(new BlockElectricGrinder("electric_grinder"));
+		registry.register(new BlockElectricCable("iron_cable"));
 		TeleportCraft.TELEPORTCRAFT_LOG.debug("Registered blocks");
 		
 		registerTileEntities();
@@ -64,6 +67,7 @@ public class EventSubscriber
 	private static void registerTileEntities() 
 	{
 		registerTileEntity(TileEntityElectricGrinder.class, "electric_grinder");
+		registerTileEntity(TileEntityElectricCable.class, "iron_cable");
 	}
 	
 	private static void registerTileEntity(@Nonnull final Class<? extends TileEntity> clazz, String name)
@@ -93,7 +97,8 @@ public class EventSubscriber
 					ModBlocks.LEAD_ORE,
 					ModBlocks.COPPER_ORE,
 					ModBlocks.TIN_ORE,
-					ModBlocks.ELECTRIC_GRINDER
+					ModBlocks.ELECTRIC_GRINDER,
+					ModBlocks.IRON_CABLE
 				}).forEach(block -> {
 					Preconditions.checkNotNull(block.getRegistryName(), "Registry name cannot be null!");
 					registry.register(

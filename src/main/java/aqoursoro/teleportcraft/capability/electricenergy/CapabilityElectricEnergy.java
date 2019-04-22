@@ -4,7 +4,6 @@ import java.util.concurrent.Callable;
 
 import javax.annotation.Nonnull;
 
-import aqoursoro.teleportcraft.capability.IEnergy;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.tileentity.TileEntity;
@@ -16,23 +15,23 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 
 public class CapabilityElectricEnergy 
 {
-	@CapabilityInject(IEnergy.class)
-	public static final Capability<IEnergy> ELECTRIC_ENERGY = null;
+	@CapabilityInject(IElectricEnergy.class)
+	public static final Capability<IElectricEnergy> ELECTRIC_ENERGY = null;
 	
 	
 	public static void registerElectricEnergy()
 	{
-		CapabilityManager.INSTANCE.register(IEnergy.class, new IStorage<IEnergy>() 
+		CapabilityManager.INSTANCE.register(IElectricEnergy.class, new IStorage<IElectricEnergy>() 
 		{
 
 			@Override
-			public NBTBase writeNBT(@Nonnull Capability<IEnergy> capability, @Nonnull IEnergy instance, @Nonnull EnumFacing side) 
+			public NBTBase writeNBT(@Nonnull Capability<IElectricEnergy> capability, @Nonnull IElectricEnergy instance, @Nonnull EnumFacing side) 
 			{
 				return new NBTTagInt(instance.getEnergyStored());
 			}
 
 			@Override
-			public void readNBT(@Nonnull Capability<IEnergy> capability, @Nonnull IEnergy instance, @Nonnull EnumFacing side, @Nonnull NBTBase nbt) 
+			public void readNBT(@Nonnull Capability<IElectricEnergy> capability, @Nonnull IElectricEnergy instance, @Nonnull EnumFacing side, @Nonnull NBTBase nbt) 
 			{
 				if(!(instance instanceof ElectricEnergyStorage)) 
 				{
@@ -43,11 +42,11 @@ public class CapabilityElectricEnergy
 			}
 			
 		}, 
-		new Callable<IEnergy>()
+		new Callable<IElectricEnergy>()
 		{
 
 			@Override
-			public IEnergy call() throws Exception 
+			public IElectricEnergy call() throws Exception 
 			{
 				return new ElectricEnergyStorage(1000000);
 			}

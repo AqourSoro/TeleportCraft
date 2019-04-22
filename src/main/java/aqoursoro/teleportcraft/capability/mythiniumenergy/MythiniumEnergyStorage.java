@@ -1,9 +1,8 @@
 package aqoursoro.teleportcraft.capability.mythiniumenergy;
 
-import aqoursoro.teleportcraft.capability.IEnergy;
 import net.minecraft.nbt.NBTTagCompound;
 
-public class MythiniumEnergyStorage implements IEnergy
+public class MythiniumEnergyStorage implements IMythiniumEnergy
 {
 
 	protected int Energy, Capacity, MaxInsert, MaxExtract;

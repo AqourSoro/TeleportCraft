@@ -50,6 +50,8 @@ public class ClientEventSubscriber
 		registerItemBlockModel(ModBlocks.COPPER_ORE);
 		registerItemBlockModel(ModBlocks.TIN_ORE);
 		registerItemBlockModel(ModBlocks.ELECTRIC_GRINDER);
+		registerItemBlockModel(ModBlocks.IRON_CABLE);
+		
 		
 		registerItemModel(ModItems.MYTHINIUM_INGOT);
 		registerItemModel(ModItems.MYTHINIUM_ORE_POWDER);

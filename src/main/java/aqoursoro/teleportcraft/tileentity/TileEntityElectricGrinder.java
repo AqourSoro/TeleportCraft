@@ -41,16 +41,9 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 	public void update() 
 	{
 		
-		
-		if(world.isBlockPowered(pos) && storage.canRecive()) 
-		{
-			storage.insertEnergy(INPUT_RATE, false);
-			energy += INPUT_RATE;
-		}
-		
-		
 		if(!this.world.isRemote)
 		{
+			energy = storage.getEnergyStored();
 			ItemStack inStack = handler.extractItem(0, 1, true);
 			
 			ItemStack battery = handler.getStackInSlot(2);
@@ -66,11 +59,9 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 				int outputNum = result.getCount();
 				if(result != ItemStack.EMPTY && handler.insertItem(1, result, true) == ItemStack.EMPTY)
 				{
-					int EEPerTick = getRequiredEnergyPerTick();
-					if(energy >= EEPerTick && storage.canExtract())
+					if(energy >= OUTPUT_RATE && storage.canExtract())
 					{
-						storage.extractEnergy(EEPerTick, false);
-						energy -= EEPerTick;
+						storage.extractEnergy(OUTPUT_RATE, false);
 						if(++ grindingTime >= totalTime)
 						{
 							grindingTime = 0;
@@ -88,8 +79,15 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 			{
 				grindingTime = 0;
 			}
+			if(world.isBlockPowered(pos)) 
+			{
+				storage.insertEnergy(INPUT_RATE, true);
+				if(storage.canRecive())
+				{
+					storage.insertEnergy(INPUT_RATE, false);
+				}
+			}
 		}
-		
 		if(grindingTime > 0 && isWorking == false)
 		{
 			BlockElectricGrinder.setState(true, world, pos);
@@ -189,10 +187,6 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable
 											         		                             (double)this.pos.getZ() + 0.5D) <= 64.0D;
 	}
 	
-	private int getRequiredEnergyPerTick()
-	{
-		return OUTPUT_RATE;
-	}
 	
 	public int getTotalTime()
 	{

@@ -37,17 +37,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockElectricGrinder extends BlockMachine
 {
-		
+	
+	
 	public BlockElectricGrinder(@Nonnull final String name)
 	{
 		super(name, ModGuiHandler.ELECTRIC_GRINDER);
 	}
 	
-
+	
 	//discriminated method
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) 
+	public TileEntityElectricGrinder createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) 
 	{
 		return new TileEntityElectricGrinder();
 	}
@@ -65,6 +66,27 @@ public class BlockElectricGrinder extends BlockMachine
       	worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tileentity.handler.getStackInSlot(i)));
       }
         super.breakBlock(worldIn, pos, state);
+	}
+	
+	public static void setState(boolean active, @Nonnull World worldIn, @Nonnull BlockPos pos) 
+	{
+		IBlockState state = worldIn.getBlockState(pos);
+		TileEntity tileentity = worldIn.getTileEntity(pos);
+		
+		if(active) 
+		{
+			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_GRINDER.getDefaultState().withProperty(WORKING, true).withProperty(FACING, state.getValue(FACING)), 3);
+		}
+		else 
+		{
+			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_GRINDER.getDefaultState().withProperty(WORKING, false).withProperty(FACING, state.getValue(FACING)), 3);
+		}
+		
+		if(tileentity != null) 
+		{
+			tileentity.validate();
+			worldIn.setTileEntity(pos, tileentity);
+		}
 	}
 	
 	//discriminated method
