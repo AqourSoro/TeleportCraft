@@ -1,0 +1,100 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"centre": "blocks/iron_block",
+			"side": "blocks/iron_block"
+		},
+		"model": "tpcraft:cable/cable_centre",
+		"uvlock": true
+	},
+	"variants": {
+		"down": {
+			"true": {
+				"submodel": {
+					"pipe_down": {
+						"model": "tpcraft:cable/cable_part",
+						"x": 90,
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"up": {
+			"true": {
+				"submodel": {
+					"pipe_up": {
+						"model": "tpcraft:cable/cable_part",
+						"x": -90,
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"north": {
+			"true": {
+				"submodel": {
+					"pipe_north": {
+						"model": "tpcraft:cable/cable_part",
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"south": {
+			"true": {
+				"submodel": {
+					"pipe_south": {
+						"model": "tpcraft:cable/cable_part",
+						"y": 180,
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"east": {
+			"true": {
+				"submodel": {
+					"pipe_east": {
+						"model": "tpcraft:cable/cable_part",
+						"y": 90,
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"west": {
+			"true": {
+				"submodel": {
+					"pipe_west": {
+						"model": "tpcraft:cable/cable_part",
+						"y": -90,
+						"uvlock": true
+					}
+				}
+			},
+			"false": { }
+		},
+		"inventory": [
+			{
+				"submodel": {
+					"pipe_north": {
+						"model": "tpcraft:cable/cable_part",
+						"uvlock": true
+					},
+					"pipe_south": {
+						"model": "tpcraft:cable/cable_part",
+						"y": 180,
+						"uvlock": true
+					}
+				}
+			}
+		],
+		"normal": [{}]
+	}
+}

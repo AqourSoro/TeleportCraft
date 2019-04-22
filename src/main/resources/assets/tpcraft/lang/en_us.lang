@@ -4,7 +4,7 @@ tile.mythinium_ore.name=Mythinium Ore
 tile.lead_ore.name=Lead Ore
 tile.copper_ore.name=Copper Ore
 tile.tin_ore.name=Tin Ore
-
+tile.iron_cable.name=Iron Cable
 //Tile Entities
 tile.electric_grinder.name=Electric Grinder
 
