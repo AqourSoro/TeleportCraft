@@ -1,6 +1,9 @@
 package aqoursoro.teleportcraft.inventory.container;
 
-import aqoursoro.teleportcraft.recipes.machine.TestFurnaceRecipes;
+import javax.annotation.Nonnull;
+
+import aqoursoro.teleportcraft.init.ModItems;
+import aqoursoro.teleportcraft.recipes.machine.ElectricSinteringFurnaceRecipes;
 import aqoursoro.teleportcraft.tileentity.TileEntityElectricSinteringFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -8,24 +11,56 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerElectricSinteringFurnace extends Container
-{
-	private final TileEntityElectricSinteringFurnace tileentity;
-	private int cookTime, energy;
+public class ContainerElectricSinteringFurnace extends Container {
+
+private TileEntityElectricSinteringFurnace tileentity;
 	
-	public ContainerElectricSinteringFurnace(InventoryPlayer player, TileEntityElectricSinteringFurnace tileentity) 
+	
+	private int sinteringTime, energy;
+	
+	//protected SlotItemHandler input, output, battery;
+	
+	public ContainerElectricSinteringFurnace(@Nonnull InventoryPlayer player, @Nonnull TileEntityElectricSinteringFurnace tileentity) 
 	{
 		this.tileentity = tileentity;
+		
 		IItemHandler handler = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		
-		this.addSlotToContainer(new SlotItemHandler(handler, 0, 44, 21));
-		this.addSlotToContainer(new SlotItemHandler(handler, 1, 44, 50));
-		this.addSlotToContainer(new SlotItemHandler(handler, 2, 97, 36));
+		this.addSlotToContainer(new SlotItemHandler(handler, 0, 56, 17));
 		
+		//output slot
+		this.addSlotToContainer(new SlotItemHandler(handler, 1, 115, 35) 
+		{
+			@Override
+            public boolean isItemValid(ItemStack stack)
+            {
+				return false;
+            }
+		});
+		
+		//battery slot
+		this.addSlotToContainer(new SlotItemHandler(handler, 2, 56, 53) 
+		{
+			@Override
+            public boolean isItemValid(ItemStack stack)
+            {
+				return stack != ItemStack.EMPTY && stack.getItem() == ModItems.BATTERY && super.isItemValid(stack);
+            }
+			
+			@Override
+            public int getItemStackLimit(ItemStack stack)
+            {	
+                return 1;
+            }
+		});
+		
+		//player's inventory
 		for(int y = 0; y < 3; y++)
 		{
 			for(int x = 0; x < 9; x++)
@@ -39,15 +74,17 @@ public class ContainerElectricSinteringFurnace extends Container
 			this.addSlotToContainer(new Slot(player, x, 8 + x * 18, 142));
 		}
 	}
-	
+
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) 
+	public boolean canInteractWith(@Nonnull EntityPlayer playerIn) 
 	{
-		return this.tileentity.isUsableByPlayer(playerIn);
+		
+		return tileentity.isUsableByPlayer(playerIn);
 	}
 	
 	@Override
-	public void updateProgressBar(int id, int data) 
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(@Nonnull final int id, @Nonnull final int data) 
 	{
 		this.tileentity.setField(id, data);
 	}
@@ -57,70 +94,87 @@ public class ContainerElectricSinteringFurnace extends Container
 	{
 		super.detectAndSendChanges();
 		
-		for(int i = 0; i < this.listeners.size(); ++i) 
+		for(int i = 0; i < this.listeners.size(); i++) 
 		{
 			IContainerListener listener = (IContainerListener)this.listeners.get(i);
 			
-			if(this.cookTime != this.tileentity.getField(0)) listener.sendWindowProperty(this, 0, this.tileentity.getField(0));
-			if(this.energy != this.tileentity.getField(1)) listener.sendWindowProperty(this, 1, this.tileentity.getField(1));
+			if(sinteringTime != tileentity.getField(0))
+			{
+				listener.sendWindowProperty(this, 0, tileentity.getField(0));
+			}
+			
+			if(energy != tileentity.getField(1))
+			{
+				listener.sendWindowProperty(this, 1, tileentity.getField(1));
+			}
 		}
 		
-		this.cookTime = this.tileentity.getField(0);
-		this.energy = this.tileentity.getField(1);
+		sinteringTime = tileentity.getField(0);
+		energy = tileentity.getField(1);
 	}
 	
 	@Override
-	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) 
+	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, @Nonnull final int index) 
 	{
 		ItemStack stack = ItemStack.EMPTY;
+		
 		Slot slot = (Slot)this.inventorySlots.get(index);
 		
-		if(slot != null && slot.getHasStack()) 
-		{
-			ItemStack stack1 = slot.getStack();
-			stack = stack1.copy();
-			
-			if(index == 2) 
-			{
-				if(!this.mergeItemStack(stack1, 4, 40, true)) return ItemStack.EMPTY;
-				slot.onSlotChange(stack1, stack);
-			}
-			else if(index != 2 && index != 1 && index != 0) 
-			{		
-				Slot slot1 = (Slot)this.inventorySlots.get(index + 1);
-				
-				if(!TestFurnaceRecipes.getInstance().getTestResult(stack1, slot1.getStack()).isEmpty())
-				{
-					if(!this.mergeItemStack(stack1, 0, 2, false)) 
+		if (slot != null && slot.getHasStack())
+        {
+			ItemStack newStack = slot.getStack(); 
+	        stack = newStack.copy();
+	        
+	        if(index == 1)
+	        {
+	        	if(!this.mergeItemStack(newStack, 3, 39, true)) 
+	        	{
+	        		return ItemStack.EMPTY;
+	        	}
+	        	slot.onSlotChange(newStack, stack);
+	        }
+	        else if(index != 2 && index != 1 && index != 0) 
+	        {
+	        	if(!ElectricSinteringFurnaceRecipes.instance().getSinteringResult(newStack).isEmpty())
+	        	{
+	        		if(!this.mergeItemStack(newStack, 0, 2, false)) 
 					{
 						return ItemStack.EMPTY;
 					}
-					else if(index >= 4 && index < 31)
+	        		else if(index >= 3 && index < 30)
 					{
-						if(!this.mergeItemStack(stack1, 31, 40, false)) return ItemStack.EMPTY;
-					}
-					else if(index >= 31 && index < 40 && !this.mergeItemStack(stack1, 4, 31, false))
+						if(!this.mergeItemStack(newStack, 30, 39, false)) 
+						{
+							return ItemStack.EMPTY;
+						}
+					}else if(index >= 30 && index < 39 && !this.mergeItemStack(newStack, 3, 30, false))
 					{
 						return ItemStack.EMPTY;
 					}
-				}
-			} 
-			else if(!this.mergeItemStack(stack1, 4, 40, false)) 
+	        	}
+	        }
+	        else if(!this.mergeItemStack(newStack, 3, 39, false)) 
 			{
 				return ItemStack.EMPTY;
 			}
-			if(stack1.isEmpty())
+	        if(newStack.isEmpty())
 			{
 				slot.putStack(ItemStack.EMPTY);
 			}
 			else
 			{
 				slot.onSlotChanged();
-
 			}
-			if(stack1.getCount() == stack.getCount()) return ItemStack.EMPTY;
-			slot.onTake(playerIn, stack1);
-		}
+	        
+	        if(newStack.getCount() == stack.getCount())
+	        {
+	        	return ItemStack.EMPTY;
+	        }
+            
+	        
+	        slot.onTake(playerIn, newStack);
+        }
+
 		return stack;
 	}
 }

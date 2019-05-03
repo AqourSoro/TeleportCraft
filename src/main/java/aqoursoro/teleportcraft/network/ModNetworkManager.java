@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 public final class ModNetworkManager 
 {
@@ -33,6 +34,9 @@ public final class ModNetworkManager
 		//NETWORK.registerMessage(CPacket___.class, CPacket___.class, networkIds++, Side.SERVER);
 		//Server -> Client 
 		//NETWORK.registerMessage(SPacket___.class, SPacket___.class, networkIds++, Side.CLIENT);
+		
+		NETWORK.registerMessage(SPktSynElectricNetList.class, SPktSynElectricNetList.class, networkIds++, Side.CLIENT);
+
 
 	}
 }

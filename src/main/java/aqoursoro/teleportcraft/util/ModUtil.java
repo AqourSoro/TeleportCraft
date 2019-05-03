@@ -3,10 +3,12 @@ package aqoursoro.teleportcraft.util;
 import com.google.common.base.Preconditions;
 import aqoursoro.teleportcraft.creativetabs.ModCreativeTabs;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -80,6 +82,47 @@ public class ModUtil
 			return new CreativeTabs[]{item.getCreativeTab(), ModCreativeTabs.CREATIVE_TAB, CreativeTabs.SEARCH};
 		}
 		return new CreativeTabs[]{item.getCreativeTab(), CreativeTabs.SEARCH};
+	}
+	
+	public static Block getBlockFromPos(World worldIn, BlockPos pos) 
+	{
+		return worldIn.getBlockState(pos).getBlock();
+	}
+
+	public static IBlockState getStateFromPos(World worldIn, BlockPos pos) 
+	{
+		return worldIn.getBlockState(pos);
+	}
+	
+	public static String getRegistryNameForClass(final Class<?> clazz, final String removeType) 
+	{
+		return org.apache.commons.lang3.StringUtils.uncapitalize(clazz.getSimpleName().replace(removeType, "")).replaceAll("([A-Z])", "_$1").toLowerCase();
+	}
+
+	public static int[] split(final int complete, final int parts) 
+	{
+		final int[] arr = new int[parts];
+		int left = complete;
+		int partsLeft = parts;
+		for (int i = 0; partsLeft > 0; i++) {
+			final int size = ((left + partsLeft) - 1) / partsLeft; 
+			arr[i] = size;
+			left -= size;
+			partsLeft--;
+		}
+		return arr;
+	}
+	
+	public static int safeDivision(final int division, final int divisor)
+	{
+		if(divisor == 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return division / divisor;
+		}
 	}
 	
 	//Used for generators to calculate.

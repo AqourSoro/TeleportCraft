@@ -3,85 +3,78 @@ package aqoursoro.teleportcraft.inventory.container;
 import javax.annotation.Nonnull;
 
 import aqoursoro.teleportcraft.init.ModItems;
-import aqoursoro.teleportcraft.recipes.machine.ElectricGrinderRecipes;
-import aqoursoro.teleportcraft.tileentity.TileEntityElectricGrinder;
-import aqoursoro.teleportcraft.tileentity.TileEntityThermalElectricGenerator;
+import aqoursoro.teleportcraft.recipes.machine.StamperRecipes;
+import aqoursoro.teleportcraft.tileentity.TileEntityStamper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerThermalElectricGenerator extends Container
-{
+public class ContainerStamper extends Container {
 
-	private TileEntityThermalElectricGenerator tileEntity;
+	private TileEntityStamper tileentity;
 	
-	private int burningTime, energy;
+	private int stampingList, energy;
 	
-	public ContainerThermalElectricGenerator(@Nonnull InventoryPlayer player, @Nonnull TileEntityThermalElectricGenerator tileentity)
+	//protected SlotItemHandler input, output, battery;
+	
+	public ContainerStamper(@Nonnull InventoryPlayer player, @Nonnull TileEntityStamper tileentity) 
 	{
+		this.tileentity = tileentity;
+		
 		IItemHandler handler = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		
-		tileEntity = tileentity;
+		this.addSlotToContainer(new SlotItemHandler(handler, 0, 20, 6)); 
 		
-		this.addSlotToContainer(new SlotItemHandler(handler, 0, 34, 20) 
+		this.addSlotToContainer(new SlotItemHandler(handler, 1, 63, 36));
+		
+		this.addSlotToContainer(new SlotItemHandler(handler, 2, 20, 64));
+		
+		
+		//output slot
+		this.addSlotToContainer(new SlotItemHandler(handler, 3, 133, 36) 
 		{
 			@Override
             public boolean isItemValid(ItemStack stack)
             {
-				return (!stack.isEmpty()) && stack.getItem() == ModItems.BATTERY && super.isItemValid(stack);
-            }
-			
-			@Override
-            public int getItemStackLimit(ItemStack stack)
-            {
-                return 1;
+				return false;
             }
 		});
 		
-		this.addSlotToContainer(new SlotItemHandler(handler, 1, 34, 57) 
-		{
-			@Override
-            public boolean isItemValid(ItemStack stack)
-            {
-				return TileEntityFurnace.isItemFuel(stack);
-            }
-		});
-				
 		//player's inventory
-				for(int y = 0; y < 3; y++)
-				{
-					for(int x = 0; x < 9; x++)
-					{
-						this.addSlotToContainer(new Slot(player, x + y*9 + 9, 8 + x*18, 84 + y*18));
-					}
-				}
-				
-				for(int x = 0; x < 9; x++)
-				{
-					this.addSlotToContainer(new Slot(player, x, 8 + x * 18, 142));
-				}
+		for(int y = 0; y < 3; y++)
+		{
+			for(int x = 0; x < 9; x++)
+			{
+				this.addSlotToContainer(new Slot(player, x + y*9 + 9, 8 + x*18, 84 + y*18));
+			}
+		}
+		
+		for(int x = 0; x < 9; x++)
+		{
+			this.addSlotToContainer(new Slot(player, x, 8 + x * 18, 142));
+		}
 	}
-	
+
 	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) 
+	public boolean canInteractWith(@Nonnull EntityPlayer playerIn) 
 	{
-		return tileEntity.isUsableByPlayer(playerIn);
+		
+		return tileentity.isUsableByPlayer(playerIn);
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void updateProgressBar(@Nonnull final int id, @Nonnull final int data) 
 	{
-		this.tileEntity.setField(id, data);
+		this.tileentity.setField(id, data);
 	}
 	
 	@Override
@@ -93,36 +86,40 @@ public class ContainerThermalElectricGenerator extends Container
 		{
 			IContainerListener listener = (IContainerListener)this.listeners.get(i);
 			
-			if(burningTime != tileEntity.getField(0))
+			if(stampingList != tileentity.getField(0))
 			{
-				listener.sendWindowProperty(this, 0, tileEntity.getField(0));
+				listener.sendWindowProperty(this, 0, tileentity.getField(0));
 			}
 			
-			if(energy != tileEntity.getField(1))
+			if(energy != tileentity.getField(1))
 			{
-				listener.sendWindowProperty(this, 1, tileEntity.getField(1));
+				listener.sendWindowProperty(this, 1, tileentity.getField(1));
 			}
 		}
 		
-		burningTime = tileEntity.getField(0);
-		energy = tileEntity.getField(1);
+		stampingList = tileentity.getField(0);
+		energy = tileentity.getField(1);
 	}
 	
 	@Override
 	public ItemStack transferStackInSlot(@Nonnull EntityPlayer playerIn, @Nonnull final int index)
 	{
 		ItemStack stack = ItemStack.EMPTY;
-		
 		Slot slot = (Slot)this.inventorySlots.get(index);
 		
-		if (slot != null && slot.getHasStack())
+		if(slot != null && slot.getHasStack()) 
 		{
-			ItemStack newStack = slot.getStack(); 
-	        stack = newStack.copy();
-	        
-	        if(index != 1 && index != 0) 
-	        {
-	        	if(!ElectricGrinderRecipes.instance().getGrindingResult(newStack).isEmpty())
+			ItemStack newStack = slot.getStack();
+			stack = newStack.copy();
+			
+			if(index == 3) //output
+			{
+				if(!this.mergeItemStack(newStack, 4, 40, true)) return ItemStack.EMPTY;
+				slot.onSlotChange(newStack, stack);
+			}
+			else if(index != 3 && index != 2 && index != 1 && index != 0) 
+			{		
+				if(StamperRecipes.instance().haveProducingResult(newStack))
 	        	{
 	        		if(!this.mergeItemStack(newStack, 0, 2, false)) 
 					{
@@ -139,12 +136,11 @@ public class ContainerThermalElectricGenerator extends Container
 						return ItemStack.EMPTY;
 					}
 	        	}
-	        }
-	        else if(!this.mergeItemStack(newStack, 3, 39, false)) 
+			} 
+			else if(!this.mergeItemStack(newStack, 4, 40, false)) 
 			{
 				return ItemStack.EMPTY;
 			}
-	        
 	        if(newStack.isEmpty())
 			{
 				slot.putStack(ItemStack.EMPTY);
@@ -158,11 +154,9 @@ public class ContainerThermalElectricGenerator extends Container
 	        {
 	        	return ItemStack.EMPTY;
 	        }
-            
-	        
 	        slot.onTake(playerIn, newStack);
 		}
-		
 		return stack;
 	}
+
 }

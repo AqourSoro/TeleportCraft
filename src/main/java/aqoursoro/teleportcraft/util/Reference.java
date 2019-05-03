@@ -20,4 +20,5 @@ public class Reference
 	
 	public static final String CLIENT_PROXY_CLASS = "aqoursoro.teleportcraft.client.ClientProxy";
 	public static final String SERVER_PROXY_CLASS = "aqoursoro.teleportcraft.server.ServerProxy";
+
 }

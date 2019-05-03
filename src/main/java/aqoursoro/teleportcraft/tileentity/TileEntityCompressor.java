@@ -2,13 +2,13 @@ package aqoursoro.teleportcraft.tileentity;
 
 
 import aqoursoro.teleportcraft.api.IElectricConsumerBlock;
-import aqoursoro.teleportcraft.block.machine.BlockElectricGrinder;
+import aqoursoro.teleportcraft.block.machine.BlockCompressor;
 import aqoursoro.teleportcraft.capability.electricenergy.CapabilityElectricEnergy;
 import aqoursoro.teleportcraft.capability.electricenergy.CapabilityElectricEnergyNetManager;
 import aqoursoro.teleportcraft.capability.electricenergy.ElectricEnergyNetManager;
 import aqoursoro.teleportcraft.capability.electricenergy.ElectricEnergyStorage;
 import aqoursoro.teleportcraft.capability.electricenergy.ElectricNet;
-import aqoursoro.teleportcraft.recipes.machine.ElectricGrinderRecipes;
+import aqoursoro.teleportcraft.recipes.machine.CompressorRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,28 +23,28 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-
-public class TileEntityElectricGrinder extends TileEntity implements ITickable, IElectricConsumerBlock
+public class TileEntityCompressor extends TileEntity implements ITickable, IElectricConsumerBlock
 {
 	public static final int SLOT_NUM = 3;
 	
-	private static final int INPUT_RATE = 100;
+	private static final int INPUT_RATE = 20;
 	private static final int OUTPUT_RATE = 5;
 	private static final int CAPACITY = 1000;
 	
 	public ItemStackHandler handler = new ItemStackHandler(SLOT_NUM);
 	
-	private ElectricEnergyStorage storage = new ElectricEnergyStorage(CAPACITY, INPUT_RATE, OUTPUT_RATE) ;
+	private ElectricEnergyStorage storage = new ElectricEnergyStorage(CAPACITY, INPUT_RATE, OUTPUT_RATE);
 	
 	private String customName;
 	
-	private int totalTime = 50, grindingTime = 0, energy = storage.getEnergyStored();
+	private int totalTime = 50, compressingTime = 0, energy = storage.getEnergyStored();
 	
 	private boolean isWorking = false;
 	
 	@Override
 	public void update() 
-	{		
+	{
+		
 		if(!this.world.isRemote)
 		{
 			energy = storage.getEnergyStored();
@@ -52,25 +52,25 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 			
 			ItemStack battery = handler.getStackInSlot(2);
 			
-			if(!battery.isEmpty())
+			if(battery != ItemStack.EMPTY)
 			{
 				this.getItemEnergy(battery);
 			}
 			
-			if(!inStack.isEmpty())
+			if(inStack != ItemStack.EMPTY)
 			{
-				ItemStack result = ElectricGrinderRecipes.instance().getGrindingResult(inStack);
+				ItemStack result = CompressorRecipes.instance().getCompressingResult(inStack);
 				int outputNum = result.getCount();
-				if((!result.isEmpty()) && handler.insertItem(1, result, true).isEmpty())
+				if(result != ItemStack.EMPTY && handler.insertItem(1, result, true) == ItemStack.EMPTY)
 				{
 					if(energy >= OUTPUT_RATE && storage.canExtract())
 					{
 						storage.extractEnergy(OUTPUT_RATE, false);
-						if(++ grindingTime >= totalTime)
+						if(++ compressingTime >= totalTime)
 						{
-							grindingTime = 0;
+							compressingTime = 0;
 							inStack = handler.extractItem(0, 1, false);
-							result = ElectricGrinderRecipes.instance().getGrindingResult(inStack).copy();
+							result = CompressorRecipes.instance().getCompressingResult(inStack).copy();
 							handler.insertItem(1, result, false);
 							markDirty();
 						}
@@ -81,7 +81,7 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 			}
 			else
 			{
-				grindingTime = 0;
+				compressingTime = 0;
 			}
 			if(world.isBlockPowered(pos)) 
 			{
@@ -92,16 +92,17 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 				}
 			}
 		}
-		if(grindingTime > 0 && isWorking == false)
+		if(compressingTime > 0 && isWorking == false)
 		{
-			BlockElectricGrinder.setState(true, world, pos);
+			BlockCompressor.setState(true, world, pos);
 			isWorking = true;
 		}
-		if(grindingTime == 0 && isWorking == true)
+		if(compressingTime == 0 && isWorking == true) 
 		{
-			BlockElectricGrinder.setState(false, world, pos);
+			BlockCompressor.setState(false, world, pos);
 			isWorking = false;
 		}
+		 
 		
 	}
 
@@ -138,7 +139,7 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 	{
 		super.writeToNBT(compound);
 		compound.setTag("Inventory", this.handler.serializeNBT());
-		compound.setInteger("GrindingTime", grindingTime);
+		compound.setInteger("CompressingTime", compressingTime);
 		compound.setInteger("GuiEnergy", energy);
 		storage.writeToNBT(compound);
 		compound.setString("Name", getDisplayName().toString());
@@ -151,7 +152,7 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 		super.readFromNBT(compound);
 		handler.deserializeNBT(compound.getCompoundTag("Inventory"));
 		storage.readFromNBT(compound);
-		grindingTime = compound.getInteger("GrindingTime");
+		compressingTime = compound.getInteger("CompressingTime");
 		energy = compound.getInteger("GuiEnergy");
 		if(compound.hasKey("Name"))
 		{
@@ -162,7 +163,7 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 	@Override
 	public ITextComponent getDisplayName() 
 	{
-		return new TextComponentTranslation("container.electric_grinder");
+		return new TextComponentTranslation("container.compressor");
 	}
 	
 	public int getEnergyStored()
@@ -196,17 +197,12 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 		return totalTime;
 	}
 	
-	public boolean isWorking()
-	{
-		return isWorking;
-	}
-	
 	public int getField(int id) 
 	{
 		switch(id) 
 		{
 		case 0:
-			return grindingTime;
+			return compressingTime;
 		case 1:
 			return energy;
 		default:
@@ -219,13 +215,18 @@ public class TileEntityElectricGrinder extends TileEntity implements ITickable, 
 		switch(id) 
 		{
 		case 0:
-			grindingTime = value;
+			compressingTime = value;
 			break;
 		case 1:
 			energy = value;
 		}
 	}
-
+	
+	public boolean isWorking()
+	{
+		return isWorking;
+	}
+	
 	@Override
 	public ElectricEnergyStorage getEnergy() 
 	{

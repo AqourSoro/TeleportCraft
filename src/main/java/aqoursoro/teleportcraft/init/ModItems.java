@@ -1,7 +1,15 @@
 package aqoursoro.teleportcraft.init;
 
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+
+import java.util.ArrayList;
+
 import aqoursoro.teleportcraft.item.ItemBattery;
+import aqoursoro.teleportcraft.item.ItemChannelChip;
+import aqoursoro.teleportcraft.item.ItemChannelTemplate;
+import aqoursoro.teleportcraft.item.ItemIDChip;
+import aqoursoro.teleportcraft.item.ItemMotherBoard;
+import aqoursoro.teleportcraft.item.ItemIDTemplate;
 import aqoursoro.teleportcraft.item.ItemGeneral;
 import aqoursoro.teleportcraft.util.Reference;
 
@@ -29,5 +37,15 @@ public class ModItems
 	
 	
 	public static final ItemBattery BATTERY = null;
+	
+	public static final ItemIDChip ID_CHIP = null;
+
+	public static final ItemChannelChip CHANNEL_CHIP = null;
+	
+	public static final ItemMotherBoard MOTHER_BOARD = null;
+	
+	public static final ItemIDTemplate ID_TEMPLATE = null;
+	
+	public static final ItemChannelTemplate CHANNEL_TEMPLATE = null;
 	
 }
