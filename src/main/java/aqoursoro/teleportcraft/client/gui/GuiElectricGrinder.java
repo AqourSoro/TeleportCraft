@@ -49,16 +49,17 @@ public class GuiElectricGrinder extends GuiContainer
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
 		int totalTime = tileEntity.getTotalTime(); 
-		
-		//15 is the height of texture
-		int electric = this.getWorkingProgressScaled(15,totalTime);
-		this.drawTexturedModalRect(this.guiLeft + 60, this.guiTop + 35 + 14 - electric, 176, 14 - electric, 8, electric + 1);
-		
-		//20 is the length of the texture
-		int grinding = this.getWorkingProgressScaled(20, totalTime);
-		this.drawTexturedModalRect(this.guiLeft + 80, this.guiTop + 35, 176, 16, grinding + 1, 13);
-		
-		
+
+		if(tileEntity.isWorking())
+		{
+			//15 is the height of texture
+			int electric = this.getWorkingProgressScaled(15,totalTime);
+			this.drawTexturedModalRect(this.guiLeft + 60, this.guiTop + 35 + 14 - electric, 176, 14 - electric, 8, electric + 1);
+			
+			//20 is the length of the texture
+			int grinding = this.getWorkingProgressScaled(20, totalTime);
+			this.drawTexturedModalRect(this.guiLeft + 80, this.guiTop + 35, 176, 16, grinding + 1, 13);	
+		}
 	}
 	
 	private int getWorkingProgressScaled(@Nonnull final int pixels, @Nonnull final int totalTime) 

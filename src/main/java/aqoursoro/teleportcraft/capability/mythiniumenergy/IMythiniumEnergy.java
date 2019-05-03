@@ -13,4 +13,8 @@ public interface IMythiniumEnergy
 	boolean canExtract();
 	
 	boolean canRecive();
+	
+	boolean canReceiveOutside();
+	
+	boolean canOutPut();
 }

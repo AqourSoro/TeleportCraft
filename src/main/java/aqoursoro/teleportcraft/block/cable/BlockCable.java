@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 
 import aqoursoro.teleportcraft.block.machine.BlockMachine;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -69,39 +70,45 @@ public abstract class BlockCable extends Block {
 	}
 
 	
-	protected boolean isNeighbourValid(final IBlockState ownState, final IBlockState neighbourState, final IBlockAccess world, final BlockPos ownPos, final EnumFacing neighbourDirection) {
-		return neighbourState.getBlock() instanceof BlockCable || neighbourState.getBlock() instanceof BlockMachine;
+	protected boolean isNeighbourValid(final IBlockState ownState, final IBlockState neighbourState, final IBlockAccess world, final BlockPos ownPos, final EnumFacing neighbourDirection) 
+	{
+		return neighbourState.getBlock() instanceof BlockCable || neighbourState.getBlock() instanceof BlockMachine || neighbourState.getBlock() instanceof BlockContainer;
 	}
 
 
-	private boolean canConnectTo(final IBlockState ownState, final IBlockAccess worldIn, final BlockPos ownPos, final EnumFacing neighbourDirection) {
+	private boolean canConnectTo(final IBlockState ownState, final IBlockAccess worldIn, final BlockPos ownPos, final EnumFacing neighbourDirection) 
+	{
 		final BlockPos neighbourPos = ownPos.offset(neighbourDirection);
 		final IBlockState neighbourState = worldIn.getBlockState(neighbourPos);
 		final Block neighbourBlock = neighbourState.getBlock();
 
 		final boolean neighbourIsValid = isNeighbourValid(ownState, neighbourState, worldIn, ownPos, neighbourDirection);
 		final boolean thisIsValid = (!(neighbourBlock instanceof BlockCable) || ((BlockCable) neighbourBlock).isNeighbourValid(neighbourState, ownState, worldIn, neighbourPos, neighbourDirection.getOpposite()))
-												|| (!(neighbourBlock instanceof BlockMachine) || true);
+												|| (!(neighbourBlock instanceof BlockMachine) || (!(neighbourBlock instanceof BlockContainer) || true));
 		return neighbourIsValid && thisIsValid;
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public IBlockState getActualState(IBlockState state, final IBlockAccess world, final BlockPos pos) {
-		for (final EnumFacing facing : EnumFacing.VALUES) {
+	public IBlockState getActualState(IBlockState state, final IBlockAccess world, final BlockPos pos) 
+	{
+		for (final EnumFacing facing : EnumFacing.VALUES) 
+		{
 			state = state.withProperty(CONNECTED_PROPERTIES.get(facing.getIndex()), canConnectTo(state, world, pos, facing));
 		}
 
 		return state;
 	}
 
-	public final boolean isConnected(final IBlockState state, final EnumFacing facing) {
+	public final boolean isConnected(final IBlockState state, final EnumFacing facing) 
+	{
 		return state.getValue(CONNECTED_PROPERTIES.get(facing.getIndex()));
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
-	public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos, final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn, final boolean p_185477_7_) {
+	public void addCollisionBoxToList(IBlockState state, final World worldIn, final BlockPos pos, final AxisAlignedBB entityBox, final List<AxisAlignedBB> collidingBoxes, @Nullable final Entity entityIn, final boolean p_185477_7_)
+	{
 		final AxisAlignedBB bb = new AxisAlignedBB(PIPE_MIN_POS, PIPE_MIN_POS, PIPE_MIN_POS, PIPE_MAX_POS, PIPE_MAX_POS, PIPE_MAX_POS);
 		addCollisionBoxToList(pos, entityBox, collidingBoxes, bb);
 

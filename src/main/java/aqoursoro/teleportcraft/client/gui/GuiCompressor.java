@@ -1,31 +1,32 @@
 package aqoursoro.teleportcraft.client.gui;
 
 import javax.annotation.Nonnull;
-
-import aqoursoro.teleportcraft.inventory.container.ContainerElectricSinteringFurnace;
-import aqoursoro.teleportcraft.tileentity.TileEntityElectricSinteringFurnace;
+import aqoursoro.teleportcraft.inventory.container.ContainerCompressor;
+import aqoursoro.teleportcraft.tileentity.TileEntityCompressor;
 import aqoursoro.teleportcraft.util.Reference;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.inventory.Container;
 
-public class GuiElectricSinteringFurnace extends GuiContainer {
-
-private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.MOD_ID + ":textures/gui/electric_sintering_furnace.png");
+@SideOnly(Side.CLIENT)
+public class GuiCompressor extends GuiContainer
+{
+	
+	private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.MOD_ID + ":textures/gui/compressor.png");
 	
 	protected InventoryPlayer Player;
 	
-	protected TileEntityElectricSinteringFurnace tileEntity;
+	protected TileEntityCompressor tileEntity;
 	
 	
-	public GuiElectricSinteringFurnace(@Nonnull InventoryPlayer player, @Nonnull TileEntityElectricSinteringFurnace tileentity) 
+	public GuiCompressor(@Nonnull InventoryPlayer player, @Nonnull TileEntityCompressor tileentity) 
 	{
 		
-		super(new ContainerElectricSinteringFurnace(player, tileentity));
+		super(new ContainerCompressor(player, tileentity));
 		Player = player;
 		tileEntity = tileentity;
 	}
@@ -47,17 +48,16 @@ private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
 		int totalTime = tileEntity.getTotalTime(); 
-
-		if(tileEntity.isWorking())
-		{
-			//16 is the height of texture
-			int electric = this.getWorkingProgressScaled(16,totalTime);
-			this.drawTexturedModalRect(this.guiLeft + 60, this.guiTop + 35 + 15 - electric, 176, 15 - electric, 10, electric + 1);
-			
-			//22 is the length of the texture
-			int sintering = this.getWorkingProgressScaled(22, totalTime);
-			this.drawTexturedModalRect(this.guiLeft + 80, this.guiTop + 35, 177, 16, sintering + 1, 17);	
-		}
+		
+		//15 is the height of texture
+		int electric = this.getWorkingProgressScaled(15,totalTime);
+		this.drawTexturedModalRect(this.guiLeft + 60, this.guiTop + 35 + 14 - electric, 176, 14 - electric, 8, electric + 1);
+		
+		//28 is the length of the texture
+		int compressing = this.getWorkingProgressScaled(28, totalTime);
+		this.drawTexturedModalRect(this.guiLeft + 77, this.guiTop + 32, 176, 16, compressing + 1, 22);
+		
+		
 	}
 	
 	private int getWorkingProgressScaled(@Nonnull final int pixels, @Nonnull final int totalTime) 
@@ -65,4 +65,5 @@ private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.
 		int i = this.tileEntity.getField(0);
 		return i != 0 ? i * pixels / totalTime : 0;
 	}
+
 }

@@ -73,6 +73,16 @@ public class MythiniumEnergyStorage implements IMythiniumEnergy
 		return this.MaxInsert > 0;
 	}
 
+	public int setEnergyStored(final int energy, final boolean simulate) 
+	{
+		final int toSet = Math.min(energy, this.MaxInsert);
+		if (!simulate) 
+		{
+			Energy = toSet;
+		}
+		return toSet;
+	}
+	
 	public void readFromNBT(NBTTagCompound nbt)
 	{
 		Energy = nbt.getInteger("Energy");
@@ -88,6 +98,18 @@ public class MythiniumEnergyStorage implements IMythiniumEnergy
 		nbt.setInteger("Capacity", Capacity);
 		nbt.setInteger("MaxInserted", MaxInsert);
 		nbt.setInteger("MaxExtracted", MaxExtract);
+	}
+	
+	@Override
+	public boolean canReceiveOutside() 
+	{
+		return true;
+	}
+
+	@Override
+	public boolean canOutPut() 
+	{
+		return false;
 	}
 	
 }

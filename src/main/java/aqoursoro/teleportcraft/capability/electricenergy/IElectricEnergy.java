@@ -14,4 +14,7 @@ public interface IElectricEnergy
 	
 	boolean canRecive();
 	
+	boolean canReceiveOutside();
+	
+	boolean canOutPut();
 }

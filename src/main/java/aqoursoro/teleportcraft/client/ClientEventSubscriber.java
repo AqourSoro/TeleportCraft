@@ -45,12 +45,32 @@ public class ClientEventSubscriber
 //		.forEach(ClientEventSubscriber::registerItemBlockModel);
 		
 		registerItemBlockModel(ModBlocks.MYTHINIUM_BLOCK);
+		registerItemBlockModel(ModBlocks.MYTHINIUM_X_BLOCK);
 		registerItemBlockModel(ModBlocks.MYTHINIUM_ORE);
 		registerItemBlockModel(ModBlocks.LEAD_ORE);
+		registerItemBlockModel(ModBlocks.LEAD_BLOCK);
 		registerItemBlockModel(ModBlocks.COPPER_ORE);
+		registerItemBlockModel(ModBlocks.COPPER_BLOCK);
 		registerItemBlockModel(ModBlocks.TIN_ORE);
+		registerItemBlockModel(ModBlocks.TIN_BLOCK);
 		registerItemBlockModel(ModBlocks.ELECTRIC_GRINDER);
+		registerItemBlockModel(ModBlocks.THERMAL_ELECTRIC_GENERATOR);
+		
+		registerItemBlockModel(ModBlocks.TELEPORTER);
+		registerItemBlockModel(ModBlocks.ITEM_SITE);
+		registerItemBlockModel(ModBlocks.CORE);
+
+		registerItemBlockModel(ModBlocks.ELECTRIC_SINTERING_FURNACE);
+		registerItemBlockModel(ModBlocks.COMPRESSOR);
+		registerItemBlockModel(ModBlocks.BOARD_PRODUCER);
+		registerItemBlockModel(ModBlocks.TEMPLATE_PRODUCER);
+		registerItemBlockModel(ModBlocks.STAMPER);
+		
 		registerItemBlockModel(ModBlocks.IRON_CABLE);
+		registerItemBlockModel(ModBlocks.COPPER_CABLE);
+
+
+		//registerItemBlockModel(ModBlocks.IRON_CABLE);
 		
 		
 		registerItemModel(ModItems.MYTHINIUM_INGOT);
@@ -68,6 +88,12 @@ public class ClientEventSubscriber
 		registerItemModel(ModItems.TIN_INGOT);
 		registerItemModel(ModItems.TIN_ORE_POWDER);
 		registerItemModel(ModItems.TIN_POWDER);
+		
+		registerItemModel(ModItems.ID_CHIP);
+		registerItemModel(ModItems.CHANNEL_CHIP);
+		registerItemModel(ModItems.MOTHER_BOARD);
+		registerItemModel(ModItems.ID_TEMPLATE);
+		registerItemModel(ModItems.CHANNEL_TEMPLATE);
 		
 	}
 	

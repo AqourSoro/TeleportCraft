@@ -2,8 +2,8 @@ package aqoursoro.teleportcraft.client.gui;
 
 import javax.annotation.Nonnull;
 
-import aqoursoro.teleportcraft.inventory.container.ContainerElectricSinteringFurnace;
-import aqoursoro.teleportcraft.tileentity.TileEntityElectricSinteringFurnace;
+import aqoursoro.teleportcraft.inventory.container.ContainerStamper;
+import aqoursoro.teleportcraft.tileentity.TileEntityStamper;
 import aqoursoro.teleportcraft.util.Reference;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,19 +13,19 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GuiElectricSinteringFurnace extends GuiContainer {
+public class GuiStamper extends GuiContainer {
 
-private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.MOD_ID + ":textures/gui/electric_sintering_furnace.png");
+private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.MOD_ID + ":textures/gui/stamper.png");
 	
 	protected InventoryPlayer Player;
 	
-	protected TileEntityElectricSinteringFurnace tileEntity;
+	protected TileEntityStamper tileEntity;
 	
 	
-	public GuiElectricSinteringFurnace(@Nonnull InventoryPlayer player, @Nonnull TileEntityElectricSinteringFurnace tileentity) 
+	public GuiStamper(@Nonnull InventoryPlayer player, @Nonnull TileEntityStamper tileentity) 
 	{
 		
-		super(new ContainerElectricSinteringFurnace(player, tileentity));
+		super(new ContainerStamper(player, tileentity));
 		Player = player;
 		tileEntity = tileentity;
 	}
@@ -35,7 +35,7 @@ private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.
 	{
 		String tileName = this.tileEntity.getDisplayName().getUnformattedText();
 		this.fontRenderer.drawString(tileName, (this.xSize/2- this.fontRenderer.getStringWidth(tileName) / 2), 6, 4210752);
-		this.fontRenderer.drawString(Integer.toString(this.tileEntity.getEnergyStored()) + " EE", 115, 72, 4210752);
+		this.fontRenderer.drawString(Integer.toString(this.tileEntity.getEnergyStored()) + " ME", 115, 72, 4210752);
 	}
 	
 	
@@ -47,17 +47,16 @@ private static final ResourceLocation TEXTURES = new ResourceLocation(Reference.
 		this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
 		
 		int totalTime = tileEntity.getTotalTime(); 
-
-		if(tileEntity.isWorking())
-		{
-			//16 is the height of texture
-			int electric = this.getWorkingProgressScaled(16,totalTime);
-			this.drawTexturedModalRect(this.guiLeft + 60, this.guiTop + 35 + 15 - electric, 176, 15 - electric, 10, electric + 1);
-			
-			//22 is the length of the texture
-			int sintering = this.getWorkingProgressScaled(22, totalTime);
-			this.drawTexturedModalRect(this.guiLeft + 80, this.guiTop + 35, 177, 16, sintering + 1, 17);	
-		}
+		
+		//18 is the height of texture
+		int mythiniumEnergy = this.getWorkingProgressScaled(18,totalTime);
+		this.drawTexturedModalRect(this.guiLeft + 157, this.guiTop + 35 + 18 - mythiniumEnergy, 176, 18 - mythiniumEnergy, 5, mythiniumEnergy + 1);
+		
+//		//20 is the length of the texture
+//		int producing = this.getWorkingProgressScaled(20, totalTime);
+//		this.drawTexturedModalRect(this.guiLeft + 80, this.guiTop + 35, 176, 0, 5, 17);
+		
+		
 	}
 	
 	private int getWorkingProgressScaled(@Nonnull final int pixels, @Nonnull final int totalTime) 

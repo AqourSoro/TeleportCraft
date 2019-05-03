@@ -1,6 +1,7 @@
 package aqoursoro.teleportcraft.capability.electricenergy;
 
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumFacing;
 
 public class ElectricEnergyStorage implements IElectricEnergy
 {
@@ -47,6 +48,11 @@ public class ElectricEnergyStorage implements IElectricEnergy
 		}
 		return extracted;
 	}
+	
+	public int insertEnergy(int receiveEnergy, boolean simulate, EnumFacing side) 
+	{
+		return this.insertEnergy(receiveEnergy, simulate);
+	}
 
 	@Override
 	public int getEnergyStored() 
@@ -60,6 +66,16 @@ public class ElectricEnergyStorage implements IElectricEnergy
 		return Capacity;
 	}
 
+	public int setEnergyStored(final int energy, final boolean simulate) 
+	{
+		final int toSet = Math.min(energy, this.MaxInsert);
+		if (!simulate) 
+		{
+			Energy = toSet;
+		}
+		return toSet;
+	}
+	
 	@Override
 	public boolean canExtract() 
 	{
@@ -87,5 +103,17 @@ public class ElectricEnergyStorage implements IElectricEnergy
 		nbt.setInteger("Capacity", Capacity);
 		nbt.setInteger("MaxInserted", MaxInsert);
 		nbt.setInteger("MaxExtracted", MaxExtract);
+	}
+
+	@Override
+	public boolean canReceiveOutside() 
+	{
+		return true;
+	}
+
+	@Override
+	public boolean canOutPut() 
+	{
+		return false;
 	}
 }

@@ -1,39 +1,29 @@
-package aqoursoro.teleportcraft.capability.electricenergy;
+package aqoursoro.teleportcraft.capability.mythiniumenergy;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 
 import javax.annotation.Nonnull;
 
-import aqoursoro.teleportcraft.TeleportCraft;
 import aqoursoro.teleportcraft.api.IElectricConsumer;
-import aqoursoro.teleportcraft.block.cable.BlockElectricCable;
-import aqoursoro.teleportcraft.block.machine.BlockMachine;
-import aqoursoro.teleportcraft.capability.IEnergyNetManager;
+import aqoursoro.teleportcraft.capability.electricenergy.CapabilityElectricEnergyNetManager;
+import aqoursoro.teleportcraft.capability.electricenergy.ElectricNet;
 import aqoursoro.teleportcraft.network.ModNetworkManager;
 import aqoursoro.teleportcraft.network.SPktSynElectricNetList;
-import aqoursoro.teleportcraft.util.Reference;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import aqoursoro.teleportcraft.network.SPktSynMythiniumNetList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
 
-public class ElectricEnergyNetManager implements ITickable
+public class MythiniumEnergyNetManager implements ITickable
 {
+private World world;
 	
-	private World world;
-	
-	public ElectricEnergyNetManager(@Nonnull World world) 
+	public MythiniumEnergyNetManager(@Nonnull World world) 
 	{
 		this.connectedCables = new HashSet<>(0);
 		this.nets = new HashSet<>(0);
@@ -41,14 +31,14 @@ public class ElectricEnergyNetManager implements ITickable
 	}
 
 	private HashSet<BlockPos> connectedCables = new HashSet<BlockPos>();
-	private HashSet<ElectricNet> nets = new HashSet<ElectricNet>();
+	private HashSet<MythiniumNet> nets = new HashSet<MythiniumNet>();
 
 	public HashSet<BlockPos> getCables()
 	{
 		return connectedCables;
 	}
 	
-	public HashSet<ElectricNet> getNets()
+	public HashSet<MythiniumNet> getNets()
 	{
 		return nets;
 	}
@@ -109,7 +99,7 @@ public class ElectricEnergyNetManager implements ITickable
 			if (!done.contains(pos)) {
 				done.add(pos);
 
-				final ElectricNet network = new ElectricNet(this.world);
+				final MythiniumNet network = new MythiniumNet(this.world);
 				this.generateNet(network, pos);
 				done.addAll(network.getCables());
 				this.nets.add(network);
@@ -118,9 +108,9 @@ public class ElectricEnergyNetManager implements ITickable
 		}
 	}
 	
-	private void generateNet(final ElectricNet net, final BlockPos pos) 
+	private void generateNet(final MythiniumNet network, final BlockPos pos) 
 	{
-		if (net.getCables().size() > 200) 
+		if (network.getCables().size() > 200) 
 		{
 
 			return;
@@ -135,13 +125,13 @@ public class ElectricEnergyNetManager implements ITickable
 		{
 			return;
 		}
-		net.add(pos);
+		network.add(pos);
 		for(EnumFacing direction : EnumFacing.VALUES)
 		{
 			final BlockPos neighbour = pos.offset(direction);
-			if(!net.getCables().contains(neighbour))
+			if(!network.getCables().contains(neighbour))
 			{
-				this.generateNet(net, neighbour);
+				this.generateNet(network, neighbour);
 			}
 		}
 		
@@ -183,7 +173,7 @@ public class ElectricEnergyNetManager implements ITickable
 		}
 		if (this.shouldOutputEnergy()) 
 		{
-			for (final ElectricNet net : this.nets) 
+			for (final MythiniumNet net : this.nets) 
 			{
 				net.outputEnergy();
 			}
@@ -195,12 +185,12 @@ public class ElectricEnergyNetManager implements ITickable
 	{
 		if (!this.world.isRemote) 
 		{
-			final NBTTagList syncTag = (NBTTagList) CapabilityElectricEnergyNetManager.ELECTRIC_ENERGY_NET.writeNBT(this, null);
+			final NBTTagList syncTag = (NBTTagList) CapabilityMythiniumEnergyNetManager.MYTHINIUM_ENERGY_NET.writeNBT(this, null);
 			for (final EntityPlayer player : this.world.playerEntities) 
 			{
 				if (player instanceof EntityPlayerMP) 
 				{
-					ModNetworkManager.NETWORK.sendTo(new SPktSynElectricNetList(syncTag), (EntityPlayerMP) player);
+					ModNetworkManager.NETWORK.sendTo(new SPktSynMythiniumNetList(syncTag), (EntityPlayerMP) player);
 				}
 			}
 		} 
@@ -209,7 +199,4 @@ public class ElectricEnergyNetManager implements ITickable
 
 		}
 	}
-	
-	
-
 }

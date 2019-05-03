@@ -4,7 +4,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import aqoursoro.teleportcraft.init.ModBlocks;
-import aqoursoro.teleportcraft.tileentity.TileEntityElectricSinteringFurnace;
+import aqoursoro.teleportcraft.tileentity.TileEntityBoardProducer;
+import aqoursoro.teleportcraft.tileentity.TileEntityTemplateProducer;
 import aqoursoro.teleportcraft.util.ModGuiHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -15,32 +16,26 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BlockElectricSinteringFurnace extends BlockMachine {
+public class BlockTemplateProducer extends BlockMachine{
 
-	public BlockElectricSinteringFurnace(@Nonnull final String name)
-	{
-		super(name, ModGuiHandler.ELECTRIC_SINTERING_FURNACE);
+	public BlockTemplateProducer(@Nonnull final String name) {
+		super(name, ModGuiHandler.TEMPLATE_PRODUCER);
 	}
-	
-	
-	//discriminated method
+
 	@Nullable
 	@Override
-	public TileEntityElectricSinteringFurnace createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) 
+	public TileEntity createTileEntity(@Nonnull final World world, @Nonnull final IBlockState state) 
 	{
-		return new TileEntityElectricSinteringFurnace();
+		return new TileEntityTemplateProducer();
 	}
 	
-
-	
-	//discriminated method
 	@Override
 	public void breakBlock(@Nonnull World worldIn, @Nonnull BlockPos pos, @Nonnull IBlockState state)
 	{
-        
-		TileEntityElectricSinteringFurnace tileentity = (TileEntityElectricSinteringFurnace)worldIn.getTileEntity(pos);
+		
+		TileEntityTemplateProducer tileentity = (TileEntityTemplateProducer)worldIn.getTileEntity(pos);
             
-      for(int i = 0; i < TileEntityElectricSinteringFurnace.SLOT_NUM; i ++)
+      for(int i = 0; i < TileEntityTemplateProducer.SLOT_NUM; i ++)
       {
       	worldIn.spawnEntity(new EntityItem(worldIn, pos.getX(), pos.getY(), pos.getZ(), tileentity.handler.getStackInSlot(i)));
       }
@@ -54,11 +49,11 @@ public class BlockElectricSinteringFurnace extends BlockMachine {
 		
 		if(active) 
 		{
-			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_SINTERING_FURNACE.getDefaultState().withProperty(WORKING, true).withProperty(FACING, state.getValue(FACING)), 3);
+			worldIn.setBlockState(pos, ModBlocks.TEMPLATE_PRODUCER.getDefaultState().withProperty(WORKING, true).withProperty(FACING, state.getValue(FACING)), 3);
 		}
 		else 
 		{
-			worldIn.setBlockState(pos, ModBlocks.ELECTRIC_SINTERING_FURNACE.getDefaultState().withProperty(WORKING, false).withProperty(FACING, state.getValue(FACING)), 3);
+			worldIn.setBlockState(pos, ModBlocks.TEMPLATE_PRODUCER.getDefaultState().withProperty(WORKING, false).withProperty(FACING, state.getValue(FACING)), 3);
 		}
 		
 		if(tileentity != null) 
@@ -68,11 +63,10 @@ public class BlockElectricSinteringFurnace extends BlockMachine {
 		}
 	}
 	
-	//discriminated method
 	@Override
     @SideOnly(Side.CLIENT)
     public ItemStack getItem(World worldIn, BlockPos pos, IBlockState state)
     {
-		return new ItemStack(ModBlocks.ELECTRIC_SINTERING_FURNACE);
+		return new ItemStack(ModBlocks.TEMPLATE_PRODUCER);
     }
 }

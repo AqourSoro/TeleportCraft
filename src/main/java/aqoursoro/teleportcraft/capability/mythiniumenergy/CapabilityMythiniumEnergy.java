@@ -16,7 +16,7 @@ import net.minecraftforge.common.capabilities.Capability.IStorage;
 public class CapabilityMythiniumEnergy 
 {
 	@CapabilityInject(IMythiniumEnergy.class)
-	public static final Capability<IMythiniumEnergy> MYTINIUM_ENERGY = null;
+	public static final Capability<IMythiniumEnergy> MYTHINIUM_ENERGY = null;
 	
 	
 	public static void registerMythiniumEnergy()

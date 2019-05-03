@@ -53,6 +53,7 @@ public class BlockElectricGrinder extends BlockMachine
 		return new TileEntityElectricGrinder();
 	}
 	
+
 	
 	//discriminated method
 	@Override
