@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "facing=north,working=false": { "model": "tpcraft:board_producer" },
+        "facing=east,working=false": { "model": "tpcraft:board_producer", "y": 90 },
+        "facing=south,working=false": { "model": "tpcraft:board_producer", "y": 180 },
+        "facing=west,working=false": { "model": "tpcraft:board_producer", "y": 270 },
+        "facing=north,working=true": { "model": "tpcraft:lit_board_producer" },
+        "facing=east,working=true": { "model": "tpcraft:lit_board_producer", "y": 90 },
+        "facing=south,working=true": { "model": "tpcraft:lit_board_producer", "y": 180 },
+        "facing=west,working=true": { "model": "tpcraft:lit_board_producer", "y":270  }
+    }
+}

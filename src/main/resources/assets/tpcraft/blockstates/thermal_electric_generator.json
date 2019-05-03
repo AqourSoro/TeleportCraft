@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "facing=north,working=false": { "model": "tpcraft:thermal_electric_generator" },
+        "facing=east,working=false": { "model": "tpcraft:thermal_electric_generator", "y": 90 },
+        "facing=south,working=false": { "model": "tpcraft:thermal_electric_generator", "y": 180 },
+        "facing=west,working=false": { "model": "tpcraft:thermal_electric_generator", "y": 270 },
+        "facing=north,working=true": { "model": "tpcraft:lit_thermal_electric_generator" },
+        "facing=east,working=true": { "model": "tpcraft:lit_thermal_electric_generator", "y": 90 },
+        "facing=south,working=true": { "model": "tpcraft:lit_thermal_electric_generator", "y": 180 },
+        "facing=west,working=true": { "model": "tpcraft:lit_thermal_electric_generator", "y":270  }
+    }
+}

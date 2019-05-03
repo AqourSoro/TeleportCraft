@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/stamper_on",
+        "up": "tpcraft:block/stamper_on",
+        "down": "tpcraft:block/stamper_on",
+        "north": "tpcraft:block/stamper_on",
+        "east": "tpcraft:block/stamper_on",
+        "south": "tpcraft:block/stamper_on",
+        "west": "tpcraft:block/stamper_on"
+    }
+}

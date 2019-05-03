@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/machine_side",
+        "up": "tpcraft:block/machine_top",
+        "down": "tpcraft:block/machine_side",
+        "north": "tpcraft:block/thermal_electric_generator_front_off",
+        "east": "tpcraft:block/machine_side",
+        "south": "tpcraft:block/machine_side",
+        "west": "tpcraft:block/machine_side"
+    }
+}

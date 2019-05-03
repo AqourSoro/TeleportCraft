@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "facing=north,working=false": { "model": "tpcraft:compressor" },
+        "facing=east,working=false": { "model": "tpcraft:compressor", "y": 90 },
+        "facing=south,working=false": { "model": "tpcraft:compressor", "y": 180 },
+        "facing=west,working=false": { "model": "tpcraft:compressor", "y": 270 },
+        "facing=north,working=true": { "model": "tpcraft:lit_compressor" },
+        "facing=east,working=true": { "model": "tpcraft:lit_compressor", "y": 90 },
+        "facing=south,working=true": { "model": "tpcraft:lit_compressor", "y": 180 },
+        "facing=west,working=true": { "model": "tpcraft:lit_compressor", "y":270  }
+    }
+}

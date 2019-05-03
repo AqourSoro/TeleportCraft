@@ -1,0 +1,24 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "LXL",
+        "LXL",
+        "III"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_block"
+        },
+         "L": {
+            "item": "tpcraft:lead_block"
+        },
+        "X": {
+            "item": "tpcraft:mythinium_x_block"
+        }
+    },
+    "result": {
+            "item": "tpcraft:teleporter",
+            "count": 1
+        }
+}

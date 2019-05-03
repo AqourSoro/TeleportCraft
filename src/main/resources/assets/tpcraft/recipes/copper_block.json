@@ -1,0 +1,17 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "tpcraft:copper_ingot"
+        }
+    },
+    "result": {
+            "item": "tpcraft:copper_block"
+        }
+}

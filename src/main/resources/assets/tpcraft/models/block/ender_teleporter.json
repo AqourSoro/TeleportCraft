@@ -1,0 +1,9 @@
+{
+	"parent": "tpcraft:block/teleporter",
+    "textures": {
+        "glass": "blocks/glass",
+        "side": "blocks/obsidian",
+        "diode": "blocks/glowstone",
+        "particle": "blocks/obsidian"
+    }
+}

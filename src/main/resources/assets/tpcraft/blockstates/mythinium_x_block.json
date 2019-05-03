@@ -1,0 +1,9 @@
+{
+    "variants": 
+    {
+        "normal": 
+        [
+            {"model": "tpcraft:mythinium_x_block"}
+        ]
+    }
+}

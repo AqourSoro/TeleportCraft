@@ -1,0 +1,17 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "tpcraft:lead_ingot"
+        }
+    },
+    "result": {
+            "item": "tpcraft:lead_block"
+        }
+}

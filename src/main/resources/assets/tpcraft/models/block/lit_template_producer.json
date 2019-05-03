@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/template_producer_side_on",
+        "up": "tpcraft:block/template_producer_top_on",
+        "down": "tpcraft:block/template_producer_side_on",
+        "north": "tpcraft:block/template_producer_side_on",
+        "east": "tpcraft:block/template_producer_side_on",
+        "south": "tpcraft:block/template_producer_side_on",
+        "west": "tpcraft:block/template_producer_side_on"
+    }
+}

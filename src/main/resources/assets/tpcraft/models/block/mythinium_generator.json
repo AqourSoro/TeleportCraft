@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/test_furnace_side",
+        "up": "tpcraft:block/test_furnace_side",
+        "down": "tpcraft:block/test_furnace_side",
+        "north": "tpcraft:block/glowstone_generator_side",
+        "east": "tpcraft:block/glowstone_generator_side",
+        "south": "tpcraft:block/glowstone_generator_side",
+        "west": "tpcraft:block/glowstone_generator_side"
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "parent": "block/orientable",
+    "textures": 
+    {
+        "particle": "tpcraft:block/core_side_off",
+        "up": "tpcraft:block/core_top_off",
+        "down": "tpcraft:block/core_side_off",
+        "north": "tpcraft:block/core_side_off",
+        "east": "tpcraft:block/core_side_off",
+        "south": "tpcraft:block/core_side_off",
+        "west": "tpcraft:block/core_side_off"
+    }
+}

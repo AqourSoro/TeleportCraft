@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/electric_sintering_furnace_side",
+        "up": "tpcraft:block/electric_sintering_furnace_side",
+        "down": "tpcraft:block/electric_sintering_furnace_side",
+        "north": "tpcraft:block/electric_sintering_furnace_front_off",
+        "east": "tpcraft:block/electric_sintering_furnace_side",
+        "south": "tpcraft:block/electric_sintering_furnace_side",
+        "west": "tpcraft:block/electric_sintering_furnace_side"
+    }
+}

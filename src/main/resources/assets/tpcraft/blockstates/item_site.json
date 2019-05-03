@@ -1,0 +1,13 @@
+{
+    "variants": 
+    {
+        "facing=north,working=false": { "model": "tpcraft:item_site" },
+        "facing=east,working=false": { "model": "tpcraft:item_site", "y": 90 },
+        "facing=south,working=false": { "model": "tpcraft:item_site", "y": 180 },
+        "facing=west,working=false": { "model": "tpcraft:item_site", "y": 270 },
+        "facing=north,working=true": { "model": "tpcraft:lit_item_site" },
+        "facing=east,working=true": { "model": "tpcraft:lit_item_site", "y": 90 },
+        "facing=south,working=true": { "model": "tpcraft:lit_item_site", "y": 180 },
+        "facing=west,working=true": { "model": "tpcraft:lit_item_site", "y":270  }
+    }
+}

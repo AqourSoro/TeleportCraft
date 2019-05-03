@@ -1,0 +1,12 @@
+{
+    "parent": "block/orientable",
+    "textures": {
+        "particle": "tpcraft:block/machine_side",
+        "up": "tpcraft:block/item_site_top_off",
+        "down": "tpcraft:block/machine_side",
+        "north": "tpcraft:block/item_site_front_off",
+        "east": "tpcraft:block/machine_side",
+        "south": "tpcraft:block/machine_side",
+        "west": "tpcraft:block/machine_side"
+    }
+}

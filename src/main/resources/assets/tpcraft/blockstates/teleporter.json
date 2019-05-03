@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"type=regular": {
+			"model": "tpcraft:teleporter"
+		},
+		"type=ender": {
+			"model": "tpcraft:ender_teleporter"
+		}
+	}
+}

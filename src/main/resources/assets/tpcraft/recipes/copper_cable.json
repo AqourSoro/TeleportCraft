@@ -1,0 +1,18 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "   ",
+        "ccc",
+        "   "
+    ],
+    "key": {
+        "c": {
+            "item": "tpcraft:copper_ingot"
+        }
+    },
+    "result": {
+            "item": "tpcraft:copper_cable",
+            "count": 1
+        }
+}

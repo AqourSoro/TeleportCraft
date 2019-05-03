@@ -1,0 +1,27 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "LLL",
+        "TCT",
+        "III"
+    ],
+    "key": {
+        "C": {
+            "item": "tpcraft:copper_block"
+        },
+         "T": {
+            "item": "tpcraft:tin_block"
+        },
+        "I": {
+            "item": "minecraft:iron_block"
+        },
+        "L": {
+            "item": "tpcraft:lead_block"
+        }
+    },
+    "result": {
+            "item": "tpcraft:compressor",
+            "count": 1
+        }
+}

@@ -1,0 +1,24 @@
+{    
+    "type": "minecraft:crafting_shaped",
+    "group": "identifier",
+    "pattern": [
+        "TTT",
+        "XXX",
+        "III"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_block"
+        },
+         "T": {
+            "item": "tpcraft:tin_block"
+        },
+        "X": {
+            "item": "tpcraft:mythinium_x_block"
+        }
+    },
+    "result": {
+            "item": "tpcraft:core",
+            "count": 1
+        }
+}
