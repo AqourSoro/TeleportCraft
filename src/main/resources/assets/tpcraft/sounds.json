@@ -1,0 +1,34 @@
+{
+    "portal_enter": {
+        "category": "block",
+        "subtitle": "teleporter.portal.portal_enter",
+        "sounds": [
+            {
+                "name": "tpcraft:portal_enter",
+                "stream": true
+            }
+        ]
+    },
+    
+    "portal_exit": {
+        "category": "block",
+        "subtitle": "teleporter.portal.portal_exit",
+        "sounds": [
+            {
+                "name": "tpcraft:portal_exit",
+                "stream": true
+            }
+        ]
+    },
+    
+    "portal_error": {
+        "category": "block",
+        "subtitle": "teleporter.portal.portal_error",
+        "sounds": [
+            {
+                "name": "tpcraft:portal_error",
+                "stream": true
+            }
+        ]
+    }
+}
